@@ -1,5 +1,7 @@
 # Full-Stack Clean Architecture Demo
 
+[![CI](https://github.com/autosergach/clean-architecture-fullstack/actions/workflows/ci.yml/badge.svg)](https://github.com/autosergach/clean-architecture-fullstack/actions/workflows/ci.yml)
+
 ## Purpose
 Demonstration of production-ready full-stack architecture with clear boundaries,
 testability, scalability and CI in mind.
