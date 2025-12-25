@@ -26,3 +26,7 @@ npm run typecheck
 ```bash
 npm run lint
 ```
+
+## UI foundation
+Base UI components live in `src/shared/ui` and are backed by design tokens in
+`src/app/globals.css`.
