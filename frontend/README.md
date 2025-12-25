@@ -37,3 +37,8 @@ Base UI components live in `src/shared/ui` and are backed by design tokens in
 ## Auth flow
 Login and register pages live in `src/pages`, using React Hook Form + Zod and
 state management in `src/features/auth/model/auth-store.ts`.
+
+## Tasks API
+Tasks and comments API clients live in:
+- `src/features/tasks/api/tasks-api.ts`
+- `src/features/tasks/api/comments-api.ts`

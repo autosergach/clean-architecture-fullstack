@@ -8,6 +8,7 @@ interface AuthState {
   status: AuthStatus;
   token: string | null;
   error: string | null;
+  getToken: () => string | null;
   login: (values: AuthFormValues) => Promise<void>;
   register: (values: AuthFormValues) => Promise<void>;
   logout: () => void;
@@ -31,6 +32,9 @@ export function createAuthStore(deps: AuthDependencies = {}) {
     status: "anonymous",
     token: null,
     error: null,
+    getToken() {
+      return storage?.getItem(STORAGE_KEY) ?? null;
+    },
     async login(values) {
       set({ status: "loading", error: null });
       try {
