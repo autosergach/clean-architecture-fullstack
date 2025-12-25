@@ -12,3 +12,17 @@ This layer orchestrates use-cases and defines ports (boundaries).
 - Can depend on Domain
 - Must not depend on Infrastructure
 - Framework-agnostic orchestration
+
+## Current use-cases
+- Auth: register, login
+- Tasks: create, update, list with filters/search
+- Comments: add to task
+
+## Ports (interfaces)
+- UserRepository
+- TaskRepository
+- CommentRepository
+- PasswordHasher
+- TokenService
+- Clock
+- IdGenerator
