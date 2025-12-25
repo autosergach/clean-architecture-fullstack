@@ -1,8 +1,17 @@
 import "./input.css";
-import type React from "react";
+import React from "react";
 
-export function Input(
-  props: React.InputHTMLAttributes<HTMLInputElement>
-): JSX.Element {
-  return <input className="input" {...props} />;
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  hasError?: boolean;
 }
+
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ hasError, className, ...rest }, ref) => {
+    const classes = ["input", hasError ? "input--error" : null, className]
+      .filter(Boolean)
+      .join(" ");
+    return <input ref={ref} className={classes} {...rest} />;
+  }
+);
+
+Input.displayName = "Input";
