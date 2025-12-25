@@ -21,5 +21,9 @@ testability, scalability and CI in mind.
 - Application layer
 - Infrastructure layer
 
+## Documentation
+- Architecture overview: `docs/architecture.md`
+- ADRs: `docs/adr/0001-architecture-style-and-layering.md`
+
 ## Status
-🚧 Architecture & foundation phase
+🚧 Architecture & foundation phase (Stage 0)
