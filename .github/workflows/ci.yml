@@ -25,28 +25,38 @@ jobs:
 
       - name: Setup Node
         uses: actions/setup-node@v4
-        if: ${{ hashFiles('package.json') != '' }}
+        if: ${{ hashFiles('backend/package.json') != '' }}
         with:
           node-version: "20"
           cache: "npm"
 
       - name: Install dependencies
-        run: npm ci
-        if: ${{ hashFiles('package.json') != '' }}
+        if: ${{ hashFiles('backend/package.json') != '' }}
+        working-directory: backend
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
 
       # Runs only if scripts exist (keeps CI minimal and non-blocking early on)
       - name: Lint (if present)
+        if: ${{ hashFiles('backend/package.json') != '' }}
+        working-directory: backend
         run: npm run lint --if-present
-        if: ${{ hashFiles('package.json') != '' }}
 
       - name: Typecheck (if present)
+        if: ${{ hashFiles('backend/package.json') != '' }}
+        working-directory: backend
         run: npm run typecheck --if-present
-        if: ${{ hashFiles('package.json') != '' }}
 
       - name: Unit tests (if present)
+        if: ${{ hashFiles('backend/package.json') != '' }}
+        working-directory: backend
         run: npm test --if-present
-        if: ${{ hashFiles('package.json') != '' }}
 
       - name: Build (if present)
+        if: ${{ hashFiles('backend/package.json') != '' }}
+        working-directory: backend
         run: npm run build --if-present
-        if: ${{ hashFiles('package.json') != '' }}
