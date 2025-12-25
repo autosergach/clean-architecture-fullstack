@@ -1,0 +1,7 @@
+flowchart LR
+  user["User"] --> ui["Web Frontend"]
+  ui --> api["Backend API (NestJS)"]
+  api --> domain["Domain Model"]
+  api --> app["Application Use-Cases"]
+  api --> infra["Infrastructure Adapters"]
+  infra --> db["Database (future)"]

@@ -52,6 +52,10 @@ User → Web Frontend → Backend API → Database / External Services
 - Database (PostgreSQL / SQLite)
 - Optional external integrations
 
+### Diagrams
+- `docs/diagrams/architecture.mmd`
+- `docs/diagrams/sequence-auth.mmd`
+
 ---
 
 ## 5. Backend architecture

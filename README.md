@@ -3,29 +3,60 @@
 [![CI](https://github.com/autosergach/clean-architecture-fullstack/actions/workflows/ci.yml/badge.svg)](https://github.com/autosergach/clean-architecture-fullstack/actions/workflows/ci.yml)
 
 ## Purpose
-Demonstration of production-ready full-stack architecture with clear boundaries,
-testability, scalability and CI in mind.
+Portfolio-grade Task Manager that demonstrates architectural thinking,
+engineering maturity, production-friendly practices, and explicit trade-offs.
 
-## What this project demonstrates
-- Architectural thinking over frameworks
-- Clean separation of concerns
-- Trade-offs and decision making
-- Testability and maintainability
+## What this repository proves
+- Clean Architecture boundaries that are enforced in code
+- Business rules isolated from frameworks
+- Test strategy that emphasizes domain and use-case confidence
+- CI automation and documentation as first-class artifacts
 
-## Tech Stack (initial)
-- Backend: Node.js + TypeScript
-- Frontend: React / Angular (TBD)
-- Testing: Jest
+## Tech Stack
+- Backend: Node.js + TypeScript + NestJS
+- Frontend: React + TypeScript (next phase)
+- Testing: Jest + Supertest
+- Docs: Swagger/OpenAPI
 - CI: GitHub Actions
 
-## Architecture (planned)
-- Domain-driven boundaries
-- Application layer
-- Infrastructure layer
+## Architecture
+Layers and dependencies are explicit:
+`Infrastructure → Application → Domain`
 
-## Documentation
+Key docs:
 - Architecture overview: `docs/architecture.md`
 - ADRs: `docs/adr/0001-architecture-style-and-layering.md`
+- Docs index: `docs/README.md`
+
+## Backend quickstart
+```bash
+cd backend
+npm install
+npm run start:dev
+```
+Swagger UI: `http://localhost:3001/docs`
+
+## Tests
+```bash
+cd backend
+npm test
+npm run test:ci
+```
+
+## Trade-offs (current)
+- In-memory repositories keep infrastructure lightweight early on.
+- JWT secret defaults to a dev value for local setup, replaced in production.
+
+## Repository standards
+- Conventional Commits for readable history.
+- Use GitHub Issues/Projects to show planning and progress.
+- ADRs capture architectural decisions and alternatives.
+
+## Contributing
+See `CONTRIBUTING.md` and `CODE_OF_CONDUCT.md`.
+
+## License
+MIT. See `LICENSE`.
 
 ## Status
-🚧 Architecture & foundation phase (Stage 0)
+Stage 5 complete (backend + tests + CI). Stage 6 in progress.

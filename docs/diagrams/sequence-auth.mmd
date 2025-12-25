@@ -1,0 +1,20 @@
+sequenceDiagram
+  participant User
+  participant API as Backend API
+  participant Auth as Auth Use-Case
+  participant Repo as User Repository
+
+  User->>API: POST /auth/register
+  API->>Auth: RegisterUser.execute
+  Auth->>Repo: findByEmail
+  Repo-->>Auth: none
+  Auth->>Repo: save(User)
+  Auth-->>API: user id + email
+  API-->>User: 201 Created
+
+  User->>API: POST /auth/login
+  API->>Auth: LoginUser.execute
+  Auth->>Repo: findByEmail
+  Repo-->>Auth: user
+  Auth-->>API: accessToken
+  API-->>User: 201 Created
