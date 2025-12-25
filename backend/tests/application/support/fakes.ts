@@ -37,4 +37,9 @@ export class FakeTokenService implements TokenService {
   async issue(payload: { userId: string }): Promise<string> {
     return `token:${payload.userId}`;
   }
+
+  async verify(token: string): Promise<{ userId: string }> {
+    const [, userId] = token.split(":");
+    return { userId };
+  }
 }

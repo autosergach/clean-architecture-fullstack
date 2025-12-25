@@ -10,6 +10,16 @@ This package implements the Task Manager backend with Clean Architecture layers:
 npm install
 ```
 
+## Run API (NestJS)
+```bash
+npm run start:dev
+```
+
+Swagger UI: `http://localhost:3001/docs`
+
+### Environment
+- `JWT_SECRET` (optional for local dev, defaults to `dev-secret`)
+
 ## Tests
 ```bash
 npm test
@@ -29,3 +39,11 @@ npm run lint
 - Auth: register, login
 - Tasks: create, update, list with filters/search
 - Comments: add to task
+
+## API overview
+- `POST /auth/register`
+- `POST /auth/login`
+- `GET /tasks` (auth)
+- `POST /tasks` (auth)
+- `PATCH /tasks/:taskId` (auth)
+- `POST /tasks/:taskId/comments` (auth)
