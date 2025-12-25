@@ -28,6 +28,11 @@ npm test
 ## Integration tests
 E2E-style API tests are included in `tests/infrastructure` and run with `npm test`.
 
+## Coverage (CI)
+```bash
+npm run test:ci
+```
+
 ## Typecheck
 ```bash
 npm run typecheck

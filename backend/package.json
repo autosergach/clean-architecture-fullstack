@@ -8,6 +8,7 @@
     "lint": "eslint . --ext .ts",
     "start": "node dist/infrastructure/http/main.js",
     "start:dev": "node -r ts-node/register src/infrastructure/http/main.ts",
+    "test:ci": "jest --coverage",
     "typecheck": "tsc --noEmit",
     "test": "jest"
   },

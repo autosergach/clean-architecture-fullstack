@@ -54,7 +54,7 @@ jobs:
       - name: Unit tests (if present)
         if: ${{ hashFiles('backend/package.json') != '' }}
         working-directory: backend
-        run: npm test --if-present
+        run: npm run test:ci --if-present
 
       - name: Build (if present)
         if: ${{ hashFiles('backend/package.json') != '' }}
