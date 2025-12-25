@@ -60,3 +60,33 @@ jobs:
         if: ${{ hashFiles('backend/package.json') != '' }}
         working-directory: backend
         run: npm run build --if-present
+
+      - name: Install frontend dependencies
+        if: ${{ hashFiles('frontend/package.json') != '' }}
+        working-directory: frontend
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      - name: Frontend lint (if present)
+        if: ${{ hashFiles('frontend/package.json') != '' }}
+        working-directory: frontend
+        run: npm run lint --if-present
+
+      - name: Frontend typecheck (if present)
+        if: ${{ hashFiles('frontend/package.json') != '' }}
+        working-directory: frontend
+        run: npm run typecheck --if-present
+
+      - name: Frontend tests (if present)
+        if: ${{ hashFiles('frontend/package.json') != '' }}
+        working-directory: frontend
+        run: npm test --if-present
+
+      - name: Frontend build (if present)
+        if: ${{ hashFiles('frontend/package.json') != '' }}
+        working-directory: frontend
+        run: npm run build --if-present
