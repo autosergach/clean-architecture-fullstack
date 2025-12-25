@@ -25,6 +25,9 @@ Swagger UI: `http://localhost:3001/docs`
 npm test
 ```
 
+## Integration tests
+E2E-style API tests are included in `tests/infrastructure` and run with `npm test`.
+
 ## Typecheck
 ```bash
 npm run typecheck
