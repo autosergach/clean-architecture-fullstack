@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { NestFactory } from "@nestjs/core";
 import { ValidationPipe } from "@nestjs/common";
+import type { NextFunction, Request, Response } from "express";
 import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
 import { AppModule } from "./modules/app.module";
 import { DomainExceptionFilter } from "./support/domain-exception.filter";
@@ -17,6 +18,17 @@ async function bootstrap(): Promise<void> {
     methods: ["GET", "POST", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     optionsSuccessStatus: 204
+  });
+
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    const origin = req.headers.origin ?? "*";
+    res.header("Access-Control-Allow-Origin", Array.isArray(origins) ? origin : "*");
+    res.header("Access-Control-Allow-Methods", "GET,POST,PATCH,OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    if (req.method === "OPTIONS") {
+      return res.sendStatus(204);
+    }
+    return next();
   });
 
   app.useGlobalPipes(
