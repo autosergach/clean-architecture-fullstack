@@ -28,6 +28,10 @@
   gap: var(--space-4);
 }
 
+.tasks__list p {
+  color: var(--color-muted);
+}
+
 .tasks__item {
   display: flex;
   justify-content: space-between;

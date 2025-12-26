@@ -33,3 +33,9 @@
   cursor: not-allowed;
   transform: none;
 }
+
+.button--danger {
+  background: rgba(255, 138, 91, 0.2);
+  color: #ffd8c7;
+  border: 1px solid rgba(255, 138, 91, 0.4);
+}

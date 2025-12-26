@@ -6,6 +6,7 @@ interface TasksState {
   items: Task[];
   status: "idle" | "loading" | "ready" | "error";
   error: string | null;
+  saving: boolean;
   load: (token: string, filters?: TaskFilters) => Promise<void>;
   create: (
     token: string,
@@ -19,6 +20,7 @@ export const useTasksStore = create<TasksState>((set, get) => ({
   items: [],
   status: "idle",
   error: null,
+  saving: false,
   async load(token, filters) {
     set({ status: "loading", error: null });
     try {
@@ -32,16 +34,47 @@ export const useTasksStore = create<TasksState>((set, get) => ({
     }
   },
   async create(token, input) {
-    const created = await tasksApi.create(token, input);
-    set({ items: [created, ...get().items] });
+    set({ saving: true, error: null });
+    try {
+      const created = await tasksApi.create(token, input);
+      set({ items: [created, ...get().items] });
+    } catch (error) {
+      set({
+        error: error instanceof Error ? error.message : "Failed to create task."
+      });
+    } finally {
+      set({ saving: false });
+    }
   },
   async updateStatus(token, taskId, status) {
-    const updated = await tasksApi.update(token, taskId, { status });
+    const previous = get().items;
     set({
-      items: get().items.map((task) => (task.id === taskId ? updated : task))
+      items: previous.map((task) =>
+        task.id === taskId ? { ...task, status } : task
+      )
     });
+    try {
+      const updated = await tasksApi.update(token, taskId, { status });
+      set({
+        items: get().items.map((task) => (task.id === taskId ? updated : task))
+      });
+    } catch (error) {
+      set({
+        items: previous,
+        error: error instanceof Error ? error.message : "Failed to update task."
+      });
+    }
   },
   async addComment(token, taskId, body) {
-    await commentsApi.add(token, taskId, { body });
+    set({ saving: true, error: null });
+    try {
+      await commentsApi.add(token, taskId, { body });
+    } catch (error) {
+      set({
+        error: error instanceof Error ? error.message : "Failed to add comment."
+      });
+    } finally {
+      set({ saving: false });
+    }
   }
 }));

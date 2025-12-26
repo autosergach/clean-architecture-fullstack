@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useAuthStore } from "../features/auth/model/auth-store";
 import { useTasksStore } from "../features/tasks/model/tasks-store";
-import { Badge, Button, Card, Input, Toast } from "../shared/ui";
+import { Badge, Button, Card, Input, Modal, Toast } from "../shared/ui";
 import type { TaskStatus } from "../features/tasks/api/tasks-api";
 import "./tasks.css";
 
@@ -13,13 +13,18 @@ const statusLabels: Record<TaskStatus, string> = {
 
 export function TasksPage(): JSX.Element {
   const token = useAuthStore((state) => state.token);
-  const { items, status, error, load, create, updateStatus, addComment } =
+  const { items, status, error, saving, load, create, updateStatus, addComment } =
     useTasksStore();
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<TaskStatus | "all">("all");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [commentBody, setCommentBody] = useState<Record<string, string>>({});
+  const [modalOpen, setModalOpen] = useState(false);
+  const [pendingStatus, setPendingStatus] = useState<{
+    taskId: string;
+    status: TaskStatus;
+  } | null>(null);
 
   useEffect(() => {
     if (token) {
@@ -49,6 +54,20 @@ export function TasksPage(): JSX.Element {
     setDescription("");
   };
 
+  const onStatusChange = (taskId: string, nextStatus: TaskStatus) => {
+    setPendingStatus({ taskId, status: nextStatus });
+    setModalOpen(true);
+  };
+
+  const confirmStatusChange = async () => {
+    if (!token || !pendingStatus) {
+      return;
+    }
+    await updateStatus(token, pendingStatus.taskId, pendingStatus.status);
+    setModalOpen(false);
+    setPendingStatus(null);
+  };
+
   const onComment = async (taskId: string) => {
     if (!token) {
       return;
@@ -69,7 +88,7 @@ export function TasksPage(): JSX.Element {
           <h1>Delivery board</h1>
           <p>Track execution, change status, and add quick notes.</p>
         </div>
-        <Button onClick={() => load(token ?? "")} variant="ghost">
+        <Button onClick={() => token && load(token)} variant="ghost">
           Refresh
         </Button>
       </div>
@@ -107,13 +126,13 @@ export function TasksPage(): JSX.Element {
             value={description}
             onChange={(event) => setDescription(event.target.value)}
           />
-          <Button onClick={onCreate}>Create task</Button>
+          <Button onClick={onCreate} disabled={saving}>
+            {saving ? "Creating..." : "Create task"}
+          </Button>
         </div>
       </Card>
 
-      {status === "error" && error ? (
-        <Toast title="Failed to load tasks" description={error} />
-      ) : null}
+      {error ? <Toast title="Something went wrong" description={error} /> : null}
 
       <div className="tasks__list">
         {status === "loading" ? <p>Loading...</p> : null}
@@ -132,7 +151,7 @@ export function TasksPage(): JSX.Element {
                   <Button
                     key={statusKey}
                     variant={task.status === statusKey ? "primary" : "ghost"}
-                    onClick={() => token && updateStatus(token, task.id, statusKey)}
+                    onClick={() => onStatusChange(task.id, statusKey)}
                   >
                     {statusLabels[statusKey]}
                   </Button>
@@ -147,13 +166,31 @@ export function TasksPage(): JSX.Element {
                   setCommentBody((prev) => ({ ...prev, [task.id]: event.target.value }))
                 }
               />
-              <Button variant="ghost" onClick={() => onComment(task.id)}>
-                Add
+              <Button variant="ghost" onClick={() => onComment(task.id)} disabled={saving}>
+                {saving ? "Sending..." : "Add"}
               </Button>
             </div>
           </Card>
         ))}
       </div>
+      <Modal
+        title="Confirm status change"
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        footer={
+          <>
+            <Button variant="ghost" onClick={() => setModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={confirmStatusChange}>Confirm</Button>
+          </>
+        }
+      >
+        <p>
+          Move task to{" "}
+          <strong>{pendingStatus ? statusLabels[pendingStatus.status] : ""}</strong>?
+        </p>
+      </Modal>
     </div>
   );
 }
