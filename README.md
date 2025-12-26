@@ -68,6 +68,11 @@ npm run test:ci
 - In-memory repositories keep infrastructure lightweight early on.
 - JWT secret defaults to a dev value for local setup, replaced in production.
 
+## Known Issues / Feedback
+- Production PATCH updates may intermittently fail in some environments.
+- Auto-deploy hooks for frontend may require manual redeploy.
+If you hit these, please open an issue with steps to reproduce.
+
 ## Repository standards
 - Conventional Commits for readable history.
 - Use GitHub Issues/Projects to show planning and progress.
