@@ -42,3 +42,8 @@ state management in `src/features/auth/model/auth-store.ts`.
 Tasks and comments API clients live in:
 - `src/features/tasks/api/tasks-api.ts`
 - `src/features/tasks/api/comments-api.ts`
+
+## Tasks UI
+Tasks page and state live in:
+- `src/pages/TasksPage.tsx`
+- `src/features/tasks/model/tasks-store.ts`

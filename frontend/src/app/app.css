@@ -16,6 +16,12 @@
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent);
 }
 
+.app__header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
 .app__logo {
   font-size: 20px;
   font-weight: 600;

@@ -1,26 +1,11 @@
 import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./app.css";
-import { Badge, Button } from "../shared/ui";
 import { LoginPage } from "../pages/LoginPage";
 import { RegisterPage } from "../pages/RegisterPage";
+import { TasksPage } from "../pages/TasksPage";
 import { useAuthStore } from "../features/auth/model/auth-store";
-
-function Dashboard(): JSX.Element {
-  const { logout } = useAuthStore();
-  return (
-    <div className="app__panel">
-      <Badge>Authenticated</Badge>
-      <h1>You're signed in.</h1>
-      <p>Next: task list and collaboration features.</p>
-      <div className="app__row">
-        <Button onClick={logout} variant="ghost">
-          Sign out
-        </Button>
-      </div>
-    </div>
-  );
-}
+import { Button } from "../shared/ui";
 
 function ProtectedRoute({ children }: { children: JSX.Element }): JSX.Element {
   const { status } = useAuthStore();
@@ -31,7 +16,7 @@ function ProtectedRoute({ children }: { children: JSX.Element }): JSX.Element {
 }
 
 export function App(): JSX.Element {
-  const { hydrate } = useAuthStore();
+  const { hydrate, status, logout } = useAuthStore();
 
   React.useEffect(() => {
     hydrate();
@@ -42,7 +27,14 @@ export function App(): JSX.Element {
       <div className="app">
         <header className="app__header">
           <div className="app__logo">Task Manager</div>
-          <div className="app__meta">Clean Architecture Demo</div>
+          <div className="app__header-actions">
+            <div className="app__meta">Clean Architecture Demo</div>
+            {status === "authenticated" ? (
+              <Button variant="ghost" onClick={logout}>
+                Sign out
+              </Button>
+            ) : null}
+          </div>
         </header>
         <main className="app__content">
           <Routes>
@@ -50,7 +42,7 @@ export function App(): JSX.Element {
               path="/"
               element={
                 <ProtectedRoute>
-                  <Dashboard />
+                  <TasksPage />
                 </ProtectedRoute>
               }
             />
