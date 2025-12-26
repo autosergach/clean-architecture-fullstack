@@ -13,6 +13,9 @@ export interface AddCommentPayload {
 }
 
 export const commentsApi = {
+  list(token: string, taskId: string): Promise<Comment[]> {
+    return apiClient.get(`/tasks/${taskId}/comments`, token);
+  },
   add(token: string, taskId: string, payload: AddCommentPayload): Promise<Comment> {
     return apiClient.post(`/tasks/${taskId}/comments`, payload, token);
   }

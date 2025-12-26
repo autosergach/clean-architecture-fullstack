@@ -6,8 +6,13 @@ import { AppModule } from "./modules/app.module";
 import { DomainExceptionFilter } from "./support/domain-exception.filter";
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule, {
-    cors: true
+  const app = await NestFactory.create(AppModule);
+
+  app.enableCors({
+    origin: true,
+    methods: ["GET", "POST", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    optionsSuccessStatus: 204
   });
 
   app.useGlobalPipes(

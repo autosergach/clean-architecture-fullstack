@@ -8,6 +8,7 @@ export * from "./ports/token-service";
 export * from "./ports/user-repository";
 export * from "./use-cases/add-comment";
 export * from "./use-cases/create-task";
+export * from "./use-cases/list-comments";
 export * from "./use-cases/list-tasks";
 export * from "./use-cases/login-user";
 export * from "./use-cases/register-user";

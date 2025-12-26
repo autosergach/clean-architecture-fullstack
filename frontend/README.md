@@ -24,7 +24,7 @@ npm run cy:open
 Requires the backend running at `VITE_API_URL`.
 
 ## Environment
-- `VITE_API_URL` (default: `http://localhost:3001`)
+- `VITE_API_URL` (default: `/api` via Vite proxy to `http://localhost:3001`)
 
 ## Typecheck
 ```bash

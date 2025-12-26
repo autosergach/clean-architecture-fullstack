@@ -1,6 +1,6 @@
-import { Body, Controller, Param, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Req, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { AddComment, CommentView } from "../../../application";
+import { AddComment, CommentView, ListComments, CommentListView } from "../../../application";
 import { AuthGuard, RequestWithUser } from "../support/auth.guard";
 import { AddCommentDto } from "./dto/comment.dto";
 
@@ -9,7 +9,15 @@ import { AddCommentDto } from "./dto/comment.dto";
 @UseGuards(AuthGuard)
 @Controller("tasks/:taskId/comments")
 export class CommentsController {
-  constructor(private readonly addComment: AddComment) {}
+  constructor(
+    private readonly addComment: AddComment,
+    private readonly listComments: ListComments
+  ) {}
+
+  @Get()
+  async list(@Param("taskId") taskId: string): Promise<CommentListView[]> {
+    return this.listComments.execute(taskId);
+  }
 
   @Post()
   async add(

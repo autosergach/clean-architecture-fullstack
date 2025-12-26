@@ -62,6 +62,21 @@
   margin-top: var(--space-3);
 }
 
+.tasks__comments-list {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  color: var(--color-muted);
+  font-size: 14px;
+}
+
+.tasks__comment-item {
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 @media (max-width: 720px) {
   .tasks__header {
     flex-direction: column;

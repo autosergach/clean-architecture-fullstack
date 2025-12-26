@@ -16,7 +16,8 @@ import {
   CreateTask,
   UpdateTask,
   ListTasks,
-  AddComment
+  AddComment,
+  ListComments
 } from "../../../application";
 
 @Module({
@@ -78,6 +79,12 @@ import {
         clock: SystemClock
       ) => new AddComment(tasks, comments, ids, clock),
       inject: [InMemoryTaskRepository, InMemoryCommentRepository, RandomIdGenerator, SystemClock]
+    },
+    {
+      provide: ListComments,
+      useFactory: (comments: InMemoryCommentRepository) =>
+        new ListComments(comments),
+      inject: [InMemoryCommentRepository]
     }
   ]
 })

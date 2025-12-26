@@ -1,9 +1,10 @@
 import { create } from "zustand";
-import { commentsApi } from "../api/comments-api";
+import { commentsApi, type Comment } from "../api/comments-api";
 import { tasksApi, type Task, type TaskFilters, type TaskStatus } from "../api/tasks-api";
 
 interface TasksState {
   items: Task[];
+  commentsByTask: Record<string, Comment[]>;
   status: "idle" | "loading" | "ready" | "error";
   error: string | null;
   saving: boolean;
@@ -13,11 +14,13 @@ interface TasksState {
     input: { title: string; description?: string; status?: TaskStatus }
   ) => Promise<void>;
   updateStatus: (token: string, taskId: string, status: TaskStatus) => Promise<void>;
+  loadComments: (token: string, taskId: string) => Promise<void>;
   addComment: (token: string, taskId: string, body: string) => Promise<void>;
 }
 
 export const useTasksStore = create<TasksState>((set, get) => ({
   items: [],
+  commentsByTask: {},
   status: "idle",
   error: null,
   saving: false,
@@ -65,10 +68,26 @@ export const useTasksStore = create<TasksState>((set, get) => ({
       });
     }
   },
+  async loadComments(token, taskId) {
+    try {
+      const comments = await commentsApi.list(token, taskId);
+      set({
+        commentsByTask: { ...get().commentsByTask, [taskId]: comments }
+      });
+    } catch (error) {
+      set({
+        error: error instanceof Error ? error.message : "Failed to load comments."
+      });
+    }
+  },
   async addComment(token, taskId, body) {
     set({ saving: true, error: null });
     try {
-      await commentsApi.add(token, taskId, { body });
+      const created = await commentsApi.add(token, taskId, { body });
+      const existing = get().commentsByTask[taskId] ?? [];
+      set({
+        commentsByTask: { ...get().commentsByTask, [taskId]: [...existing, created] }
+      });
     } catch (error) {
       set({
         error: error instanceof Error ? error.message : "Failed to add comment."

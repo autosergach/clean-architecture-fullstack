@@ -13,13 +13,24 @@ const statusLabels: Record<TaskStatus, string> = {
 
 export function TasksPage(): JSX.Element {
   const token = useAuthStore((state) => state.token);
-  const { items, status, error, saving, load, create, updateStatus, addComment } =
-    useTasksStore();
+  const {
+    items,
+    commentsByTask,
+    status,
+    error,
+    saving,
+    load,
+    create,
+    updateStatus,
+    loadComments,
+    addComment
+  } = useTasksStore();
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<TaskStatus | "all">("all");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [commentBody, setCommentBody] = useState<Record<string, string>>({});
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [modalOpen, setModalOpen] = useState(false);
   const [pendingStatus, setPendingStatus] = useState<{
     taskId: string;
@@ -78,6 +89,17 @@ export function TasksPage(): JSX.Element {
     }
     await addComment(token, taskId, body);
     setCommentBody((prev) => ({ ...prev, [taskId]: "" }));
+  };
+
+  const toggleComments = async (taskId: string) => {
+    if (!token) {
+      return;
+    }
+    const next = !expanded[taskId];
+    setExpanded((prev) => ({ ...prev, [taskId]: next }));
+    if (next && !commentsByTask[taskId]) {
+      await loadComments(token, taskId);
+    }
   };
 
   return (
@@ -170,6 +192,24 @@ export function TasksPage(): JSX.Element {
                 {saving ? "Sending..." : "Add"}
               </Button>
             </div>
+            <div className="tasks__comment">
+              <Button variant="ghost" onClick={() => toggleComments(task.id)}>
+                {expanded[task.id] ? "Hide comments" : "Show comments"}
+              </Button>
+            </div>
+            {expanded[task.id] ? (
+              <div className="tasks__comments-list">
+                {(commentsByTask[task.id] ?? []).length === 0 ? (
+                  <span>No comments yet.</span>
+                ) : (
+                  commentsByTask[task.id]?.map((comment) => (
+                    <div key={comment.id} className="tasks__comment-item">
+                      {comment.body}
+                    </div>
+                  ))
+                )}
+              </div>
+            ) : null}
           </Card>
         ))}
       </div>

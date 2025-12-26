@@ -50,6 +50,4 @@ export class ApiClient {
   }
 }
 
-export const apiClient = new ApiClient(
-  import.meta.env.VITE_API_URL || "http://localhost:3001"
-);
+export const apiClient = new ApiClient(import.meta.env.VITE_API_URL || "/api");

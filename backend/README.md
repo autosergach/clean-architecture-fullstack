@@ -54,4 +54,5 @@ npm run lint
 - `GET /tasks` (auth)
 - `POST /tasks` (auth)
 - `PATCH /tasks/:taskId` (auth)
+- `GET /tasks/:taskId/comments` (auth)
 - `POST /tasks/:taskId/comments` (auth)
