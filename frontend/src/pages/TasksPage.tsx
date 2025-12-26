@@ -135,9 +135,9 @@ export function TasksPage(): JSX.Element {
       {error ? <Toast title="Something went wrong" description={error} /> : null}
 
       <div className="tasks__list">
-        {status === "loading" ? <p>Loading...</p> : null}
+        {status === "loading" ? <p data-testid="tasks-loading">Loading...</p> : null}
         {status === "ready" && filtered.length === 0 ? (
-          <p>No tasks yet. Create the first one.</p>
+          <p data-testid="tasks-empty">No tasks yet. Create the first one.</p>
         ) : null}
         {filtered.map((task) => (
           <Card key={task.id}>

@@ -17,6 +17,12 @@ npm run dev
 npm test
 ```
 
+## E2E (Cypress)
+```bash
+npm run cy:open
+```
+Requires the backend running at `VITE_API_URL`.
+
 ## Environment
 - `VITE_API_URL` (default: `http://localhost:3001`)
 
@@ -47,3 +53,7 @@ Tasks and comments API clients live in:
 Tasks page and state live in:
 - `src/pages/TasksPage.tsx`
 - `src/features/tasks/model/tasks-store.ts`
+
+## Trade-offs
+- No persistence on the frontend; state is derived from backend responses.
+- Cypress E2E relies on the in-memory backend, so data resets on server restart.
