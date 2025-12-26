@@ -1,6 +1,8 @@
 # Full-Stack Clean Architecture Demo
 
 [![CI](https://github.com/autosergach/clean-architecture-fullstack/actions/workflows/ci.yml/badge.svg)](https://github.com/autosergach/clean-architecture-fullstack/actions/workflows/ci.yml)
+[![Vercel Deploy](https://vercelbadge.vercel.app/api/alexs-projects-e9caafc0/clean-architecture-fullstack)](https://clean-architecture-fullstack.vercel.app/login)
+[![Render Deploy](https://img.shields.io/badge/Render-live-46e3b7)](https://clean-architecture-fullstack.onrender.com/docs)
 [![Live Demo](https://img.shields.io/badge/Live-Demo-1dd6a6)](https://clean-architecture-fullstack.vercel.app/login)
 [![API Docs](https://img.shields.io/badge/API-Swagger-0fbf94)](https://clean-architecture-fullstack.onrender.com/docs)
 
