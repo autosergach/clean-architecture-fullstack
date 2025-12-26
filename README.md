@@ -36,6 +36,19 @@ npm run start:dev
 ```
 Swagger UI: `http://localhost:3001/docs`
 
+## Deployment (Render + Vercel)
+Backend (Render):
+- Root directory: `backend`
+- Build: `npm install && npm run build`
+- Start: `npm run start`
+- Env: `JWT_SECRET`, `CORS_ORIGIN`, `PORT`
+
+Frontend (Vercel):
+- Root directory: `frontend`
+- Build: `npm run build`
+- Output: `dist`
+- Env: `VITE_API_URL=https://<backend-url>`
+
 ## Tests
 ```bash
 cd backend

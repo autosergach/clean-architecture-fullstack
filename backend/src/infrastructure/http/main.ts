@@ -8,8 +8,12 @@ import { DomainExceptionFilter } from "./support/domain-exception.filter";
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
 
+  const origins = process.env.CORS_ORIGIN
+    ? process.env.CORS_ORIGIN.split(",").map((origin) => origin.trim())
+    : true;
+
   app.enableCors({
-    origin: true,
+    origin: origins,
     methods: ["GET", "POST", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     optionsSuccessStatus: 204

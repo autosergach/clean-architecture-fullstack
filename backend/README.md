@@ -19,6 +19,14 @@ Swagger UI: `http://localhost:3001/docs`
 
 ### Environment
 - `JWT_SECRET` (optional for local dev, defaults to `dev-secret`)
+- `CORS_ORIGIN` (comma-separated origins, default: allow all)
+- `PORT` (default: 3001)
+
+## Render build note
+If your hosting environment skips devDependencies during build, use:
+```
+npm install --include=dev && npm run build
+```
 
 ## Tests
 ```bash
