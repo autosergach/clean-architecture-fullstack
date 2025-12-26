@@ -28,7 +28,7 @@ export function App(): JSX.Element {
         <header className="app__header">
           <div className="app__logo">Task Manager</div>
           <div className="app__header-actions">
-            <div className="app__meta">Clean Architecture Demo</div>
+            <div className="app__meta">Clean Architecture Demo • v1</div>
             {status === "authenticated" ? (
               <Button variant="ghost" onClick={logout}>
                 Sign out
